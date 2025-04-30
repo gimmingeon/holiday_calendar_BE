@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const calendar_repository_1 = require("./calendar.repository");
+const calendar_service_1 = require("./calendar.service");
+const calendar_controller_1 = require("./calendar.controller");
+const calendarRouter = (0, express_1.Router)();
+const calendarRepository = new calendar_repository_1.CalendarRepository();
+const calendarService = new calendar_service_1.CalendarService(calendarRepository);
+const calendarController = new calendar_controller_1.CalendarController(calendarService);
+calendarRouter.post('/', (req, res) => calendarController.createCalendar(req, res));
+calendarRouter.post('/move', (req, res) => calendarController.moveMonth(req, res));
+exports.default = calendarRouter;

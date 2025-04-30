@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const data_sourse_1 = require("../data-sourse");
+const user_entity_1 = require("../entity/user.entity");
+const user_service_1 = require("./user.service");
+const user_controller_1 = require("./user.controller");
+const userRouter = (0, express_1.Router)();
+const userRepository = data_sourse_1.AppDataSourse.getRepository(user_entity_1.User);
+const userService = new user_service_1.UserService(userRepository);
+const userController = new user_controller_1.UserController(userService);
+userRouter.post('/', (req, res) => userController.signUp(req, res));
+userRouter.post('/login', (req, res) => userController.signIn(req, res));
+exports.default = userRouter;

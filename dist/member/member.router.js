@@ -1,0 +1,20 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const data_sourse_1 = require("../data-sourse");
+const member_entity_1 = require("../entity/member.entity");
+const member_service_1 = require("./member.service");
+const member_controller_1 = __importDefault(require("./member.controller"));
+const memberRouter = (0, express_1.Router)();
+const memberRepository = data_sourse_1.AppDataSourse.getRepository(member_entity_1.Member);
+const memberService = new member_service_1.MemberService(memberRepository);
+const memberController = new member_controller_1.default(memberService);
+memberRouter.post('/', (req, res) => memberController.registerMember(req, res));
+memberRouter.delete('/', (req, res) => memberController.deleteMember(req, res));
+memberRouter.get('/', (req, res) => memberController.findAllMember(req, res));
+memberRouter.post('/find', (req, res) => memberController.findOneMember(req, res));
+memberRouter.patch('/', (req, res) => memberController.updateMember(req, res));
+exports.default = memberRouter;
