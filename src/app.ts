@@ -6,6 +6,10 @@ import userRouter from "./user/user.router";
 import memberRouter from "./member/member.router";
 import cookieParser from "cookie-parser";
 import { jwtMiddleware } from "./middleware/jwt-validate-middleware";
+import paymentRouter from "./payment/payment.router";
+import { Payment } from "./entity/payment.entity";
+import { paidUserMiddleware } from "./middleware/pyment-validate-middleware";
+import { rePaidUserMiddleware } from "./middleware/re-payment-validate-middleware";
 
 AppDataSourse.initialize()
     .then(() => {
@@ -16,9 +20,11 @@ AppDataSourse.initialize()
         app.use(express.json());
         app.use(cookieParser());
 
-        app.use('/calendar', jwtMiddleware, calendarRouter);
+        // app.use('/calendar', jwtMiddleware, calendarRouter);
+        const paymentRepository = AppDataSourse.getRepository(Payment);
         app.use('/user', userRouter);
-        app.use('/member', jwtMiddleware, memberRouter);
+        app.use('/member', jwtMiddleware, paidUserMiddleware(paymentRepository), memberRouter);
+        app.use('/payment', jwtMiddleware, rePaidUserMiddleware(paymentRepository), paymentRouter);
 
         const port: number = 3000;
         app.listen(port, () => {
