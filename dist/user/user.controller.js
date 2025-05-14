@@ -14,9 +14,9 @@ class UserController {
     constructor(userService) {
         this.userService = userService;
         this.signUp = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            const { login_id, password, name } = req.body;
+            const { email, password, name, phoneNumber } = req.body;
             try {
-                yield this.userService.signup(name, login_id, password);
+                yield this.userService.signup(name, email, password, phoneNumber);
                 res.status(200).json({ message: "회원가입 완료" });
             }
             catch (error) {
@@ -29,15 +29,22 @@ class UserController {
             }
         });
         this.signIn = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            const { login_id, password } = req.body;
-            const token = yield this.userService.signIn(login_id, password);
-            res.cookie('Authorization', `Bearer ${token}`);
-            if (token) {
+            const { email, password } = req.body;
+            try {
+                const token = yield this.userService.signIn(email, password);
+                res.cookie('Authorization', `Bearer ${token}`);
                 res.status(200).json({ message: "로그인 성공" });
             }
-            else {
-                res.status(404).json({ message: "아이디 또는 비밀번호가 실패했습니다." });
+            catch (error) {
+                if (error instanceof Error) {
+                    res.status(409).json({ message: error.message });
+                }
             }
+        });
+        this.myInfo = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const { id: userId } = req.user;
+            const myInfo = yield this.userService.myInfo(userId);
+            res.status(200).json(myInfo);
         });
     }
 }

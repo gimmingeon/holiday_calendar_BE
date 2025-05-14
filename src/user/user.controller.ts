@@ -8,10 +8,10 @@ export class UserController {
 
     signUp = async (req: Request, res: Response): Promise<void> => {
 
-        const { login_id, password, name }: { login_id: string, password: string, name: string } = req.body;
+        const { email, password, name, phoneNumber }: { email: string, password: string, name: string, phoneNumber: string } = req.body;
 
         try {
-            await this.userService.signup(name, login_id, password);
+            await this.userService.signup(name, email, password, phoneNumber);
 
             res.status(200).json({ message: "회원가입 완료" });
         } catch (error) {
@@ -25,10 +25,10 @@ export class UserController {
     }
 
     signIn = async (req: Request, res: Response): Promise<void> => {
-        const { login_id, password }: { login_id: string, password: string } = req.body;
+        const { email, password }: { email: string, password: string } = req.body;
 
         try {
-            const token = await this.userService.signIn(login_id, password);
+            const token = await this.userService.signIn(email, password);
 
             res.cookie('Authorization', `Bearer ${token}`);
             res.status(200).json({ message: "로그인 성공" });
@@ -38,5 +38,13 @@ export class UserController {
             }
         }
 
+    }
+
+    myInfo = async (req: Request, res: Response): Promise<void> => {
+        const { id: userId } = (req as any).user;
+
+        const myInfo = await this.userService.myInfo(userId);
+
+        res.status(200).json(myInfo);
     }
 }

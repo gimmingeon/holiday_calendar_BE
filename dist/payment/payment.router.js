@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const payment_entity_1 = require("../entity/payment.entity");
+const data_sourse_1 = require("../data-sourse");
+const payment_service_1 = require("./payment.service");
+const payment_controller_1 = require("./payment.controller");
+const paymentRouter = (0, express_1.Router)();
+const paymentRepository = data_sourse_1.AppDataSourse.getRepository(payment_entity_1.Payment);
+const paymentService = new payment_service_1.PaymentService(paymentRepository);
+const paymentController = new payment_controller_1.PaymentController(paymentService);
+paymentRouter.post('/', (req, res) => paymentController.paymentAdvise(req, res));
+exports.default = paymentRouter;

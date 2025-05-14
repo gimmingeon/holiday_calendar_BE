@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const typeorm_1 = require("typeorm");
 const member_entity_1 = require("./member.entity");
+const payment_entity_1 = require("./payment.entity");
 let User = class User {
 };
 exports.User = User;
@@ -26,11 +27,15 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)({ type: 'varchar', unique: true, nullable: false }),
     __metadata("design:type", String)
-], User.prototype, "login_id", void 0);
+], User.prototype, "email", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'varchar', nullable: false }),
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'varchar', nullable: false }),
+    __metadata("design:type", String)
+], User.prototype, "phoneNumber", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)({ type: 'timestamp' }),
     __metadata("design:type", Date)
@@ -43,6 +48,10 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => member_entity_1.Member, (member) => member.user),
     __metadata("design:type", Array)
 ], User.prototype, "members", void 0);
+__decorate([
+    (0, typeorm_1.OneToOne)(() => payment_entity_1.Payment, (payment) => payment.user),
+    __metadata("design:type", payment_entity_1.Payment)
+], User.prototype, "payment", void 0);
 exports.User = User = __decorate([
     (0, typeorm_1.Entity)()
 ], User);

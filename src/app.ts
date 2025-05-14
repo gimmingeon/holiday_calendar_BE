@@ -23,7 +23,9 @@ AppDataSourse.initialize()
         // app.use('/calendar', jwtMiddleware, calendarRouter);
         const paymentRepository = AppDataSourse.getRepository(Payment);
         app.use('/user', userRouter);
-        app.use('/member', jwtMiddleware, paidUserMiddleware(paymentRepository), memberRouter);
+        app.use('/member', jwtMiddleware,
+            //paidUserMiddleware(paymentRepository),
+            memberRouter);
         app.use('/payment', jwtMiddleware, rePaidUserMiddleware(paymentRepository), paymentRouter);
 
         const port: number = 3000;

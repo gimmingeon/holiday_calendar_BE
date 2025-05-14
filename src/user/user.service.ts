@@ -9,36 +9,36 @@ export class UserService {
         private readonly userRepository: Repository<User>
     ) { }
 
-    async signup(name: string, login_id: string, password: string): Promise<User> {
+    async signup(name: string, email: string, password: string, phoneNumber: string): Promise<User> {
 
         const existedUser = await this.userRepository.findOneBy({
-            login_id: login_id
+            email
         });
 
         if (existedUser) {
-            throw new Error("이미 존재하는 id입니다.");
+            throw new Error("이미 존재하는 이메일입니다.");
         }
 
         const hashedPassword = await bcrypt.hash(password, 11);
 
         const signupUser = await this.userRepository.save({
-            login_id, password: hashedPassword, name
+            email, password: hashedPassword, name, phoneNumber
         })
 
         return signupUser;
     }
 
-    async signIn(login_id: string, password: string): Promise<string> {
+    async signIn(email: string, password: string): Promise<string> {
 
 
         const existedUser = await this.userRepository
             .createQueryBuilder('user')
             .addSelect('user.password')
-            .where('user.login_id = :login_id', { login_id })
+            .where('user.email = :email', { email })
             .getOne();
 
         if (!existedUser) {
-            throw new Error("아이디가 틀렸습니다..");
+            throw new Error("이메일가 틀렸습니다..");
         } else if (!(await bcrypt.compare(password, existedUser.password))) {
             throw new Error("비밀번호가 틀렸습니다.");
         }
@@ -46,5 +46,13 @@ export class UserService {
         const accessToken = jwt.sign({ id: existedUser.id }, 'custom-secret-key', { expiresIn: "3h" });
 
         return accessToken;
+    }
+
+    async myInfo(userId: number): Promise<User | null> {
+        const existedUser = await this.userRepository.findOneBy({
+            id: userId
+        });
+
+        return existedUser
     }
 }

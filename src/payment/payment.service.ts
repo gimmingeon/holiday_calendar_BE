@@ -10,10 +10,9 @@ export class PaymentService {
     constructor(
         private readonly paymentRepository: Repository<Payment>
     ) { }
-    async payment(paymentKey: string, orderId: number, userId: number) {
+    async payment(paymentKey: string, orderId: string, userId: number, amount: number) {
         const secretKey = process.env.TOSS_SECRET_KEY!;
         const encoded = "Basic " + Buffer.from(secretKey + ":").toString("base64");
-        const amount = 10000
 
         const response = await axios.post(
             "https://api.tosspayments.com/v1/payments/confirm",

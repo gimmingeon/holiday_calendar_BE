@@ -11,10 +11,13 @@ export class User {
     name!: string;
 
     @Column({ type: 'varchar', unique: true, nullable: false })
-    login_id!: string;
+    email!: string;
 
     @Column({ type: 'varchar', nullable: false })
     password!: string;
+
+    @Column({ type: 'varchar', nullable: false })
+    phoneNumber!: string;
 
     // @IsEnum(Role)
     // @Column({ type: 'enum', enum: Role, default: Role.User })
