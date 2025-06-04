@@ -13,6 +13,7 @@ exports.User = void 0;
 const typeorm_1 = require("typeorm");
 const member_entity_1 = require("./member.entity");
 const payment_entity_1 = require("./payment.entity");
+const mate_entity_1 = require("./mate.entity");
 let User = class User {
 };
 exports.User = User;
@@ -52,6 +53,10 @@ __decorate([
     (0, typeorm_1.OneToOne)(() => payment_entity_1.Payment, (payment) => payment.user),
     __metadata("design:type", payment_entity_1.Payment)
 ], User.prototype, "payment", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => mate_entity_1.Mate, (mate) => mate.user),
+    __metadata("design:type", Array)
+], User.prototype, "mate", void 0);
 exports.User = User = __decorate([
     (0, typeorm_1.Entity)()
 ], User);

@@ -13,9 +13,6 @@ export default class MemberController {
 
         const member = await this.memberService.registerMember(name, role, userId);
 
-        console.log('new member', member);
-
-
         res.status(201).json(member);
     }
 

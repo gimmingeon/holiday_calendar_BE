@@ -1,0 +1,20 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const data_sourse_1 = require("../data-sourse");
+const member_entity_1 = require("../entity/member.entity");
+const memberCondition_entity_1 = require("../entity/memberCondition.entity");
+const memberCondition_service_1 = require("./memberCondition.service");
+const memberCondition_controller_1 = __importDefault(require("./memberCondition.controller"));
+const conditionRouter = (0, express_1.Router)();
+const memberRepository = data_sourse_1.AppDataSourse.getRepository(member_entity_1.Member);
+const conditionRepository = data_sourse_1.AppDataSourse.getRepository(memberCondition_entity_1.MemberCondition);
+const conditionService = new memberCondition_service_1.MemberConditionService(memberRepository, conditionRepository);
+const conditionController = new memberCondition_controller_1.default(conditionService);
+conditionRouter.post('/', (req, res) => conditionController.registerCondition(req, res));
+conditionRouter.get('/', (req, res) => conditionController.findAllCondition(req, res));
+conditionRouter.delete('/', (req, res) => conditionController.deleteCondition(req, res));
+exports.default = conditionRouter;

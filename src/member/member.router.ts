@@ -3,7 +3,6 @@ import { AppDataSourse } from "../data-sourse";
 import { Member } from "../entity/member.entity";
 import { MemberService } from "./member.service";
 import MemberController from "./member.controller";
-import { jwtMiddleware } from "../middleware/jwt-validate-middleware";
 
 const memberRouter = Router();
 

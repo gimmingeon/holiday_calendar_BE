@@ -32,6 +32,10 @@ __decorate([
     __metadata("design:type", Number)
 ], Member.prototype, "holiday_count", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ type: "int", nullable: false, unsigned: true, }),
+    __metadata("design:type", Number)
+], Member.prototype, "extra_holiday_count", void 0);
+__decorate([
     (0, typeorm_1.Column)({ type: 'varchar', nullable: true, default: "사회복지사" }),
     __metadata("design:type", String)
 ], Member.prototype, "role", void 0);

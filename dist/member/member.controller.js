@@ -16,7 +16,6 @@ class MemberController {
             const { name, role } = req.body;
             const { id: userId } = req.user;
             const member = yield this.memberService.registerMember(name, role, userId);
-            console.log('new member', member);
             res.status(201).json(member);
         });
         this.deleteMember = (req, res) => __awaiter(this, void 0, void 0, function* () {

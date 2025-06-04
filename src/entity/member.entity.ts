@@ -23,6 +23,9 @@ export class Member {
     @Column({ type: "int", nullable: false, unsigned: true, default: 1 })
     holiday_count!: number;
 
+    @Column({ type: "int", nullable: false, unsigned: true, })
+    extra_holiday_count!: number;
+
     @Column({ type: 'varchar', nullable: true, default: "사회복지사" })
     role!: string;
 

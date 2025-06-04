@@ -1,6 +1,7 @@
 import { Column, CreateDateColumn, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Member } from "./member.entity";
 import { Payment } from "./payment.entity";
+import { Mate } from "./mate.entity";
 
 @Entity()
 export class User {
@@ -34,4 +35,7 @@ export class User {
 
     @OneToOne(() => Payment, (payment) => payment.user)
     payment!: Payment;
+
+    @OneToMany(() => Mate, (mate) => mate.user)
+    mate!: Mate[];
 }

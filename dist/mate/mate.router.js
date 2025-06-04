@@ -1,0 +1,22 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const data_sourse_1 = require("../data-sourse");
+const mate_entity_1 = require("../entity/mate.entity");
+const mate_service_1 = require("./mate.service");
+const mate_controller_1 = __importDefault(require("./mate.controller"));
+const user_entity_1 = require("../entity/user.entity");
+const member_entity_1 = require("../entity/member.entity");
+const mateRouter = (0, express_1.Router)();
+const mateRepository = data_sourse_1.AppDataSourse.getRepository(mate_entity_1.Mate);
+const userRepository = data_sourse_1.AppDataSourse.getRepository(user_entity_1.User);
+const memberRepository = data_sourse_1.AppDataSourse.getRepository(member_entity_1.Member);
+const mateService = new mate_service_1.MateService(mateRepository, userRepository, memberRepository);
+const mateController = new mate_controller_1.default(mateService);
+mateRouter.post('/', (req, res) => mateController.registerMate(req, res));
+mateRouter.delete('/', (req, res) => mateController.deleteMate(req, res));
+mateRouter.get('/', (req, res) => mateController.findAllMate(req, res));
+exports.default = mateRouter;

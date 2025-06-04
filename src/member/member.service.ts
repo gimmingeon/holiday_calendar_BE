@@ -1,9 +1,6 @@
 import { Repository } from "typeorm";
 import { Member } from "../entity/member.entity";
 import createHttpError from "http-errors";
-import { CalendarDayI } from "../entity/calendar.entity";
-import { calendarRepository } from "../calendar/calendar.singleton";
-
 export class MemberService {
     constructor(
         private readonly memberRepository: Repository<Member>,

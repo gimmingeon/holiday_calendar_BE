@@ -1,6 +1,6 @@
 import express, { Express, Request, Response } from "express";
 import bodyParser from "body-parser";
-import calendarRouter from "./calendar/calendar.router";
+// import calendarRouter from "./calendar/calendar.router";
 import { AppDataSourse } from "./data-sourse";
 import userRouter from "./user/user.router";
 import memberRouter from "./member/member.router";
@@ -10,6 +10,8 @@ import paymentRouter from "./payment/payment.router";
 import { Payment } from "./entity/payment.entity";
 import { paidUserMiddleware } from "./middleware/pyment-validate-middleware";
 import { rePaidUserMiddleware } from "./middleware/re-payment-validate-middleware";
+import mateRouter from "./mate/mate.router";
+import conditionRouter from "./memberCondition/memberCondition.router";
 
 AppDataSourse.initialize()
     .then(() => {
@@ -27,6 +29,8 @@ AppDataSourse.initialize()
             //paidUserMiddleware(paymentRepository),
             memberRouter);
         app.use('/payment', jwtMiddleware, rePaidUserMiddleware(paymentRepository), paymentRouter);
+        app.use('/mate', jwtMiddleware, mateRouter);
+        app.use('/condition', jwtMiddleware, conditionRouter);
 
         const port: number = 3000;
         app.listen(port, () => {
